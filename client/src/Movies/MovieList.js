@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import MovieCard from "./MovieCard";
+import updateMovie from "./UpdateMovie";
 
 function MovieList({ movies }) {
   return (
