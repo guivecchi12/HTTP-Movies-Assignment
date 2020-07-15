@@ -3,19 +3,29 @@ import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 
 
-const updateMovie = props => {
+const initialMovie = {
+    title: "",
+    director: "",
+    metascore: "",
+    stars: []
+}
+
+const UpdateMovie = props => {
     console.log ("The props: ", props);
+    const { id } = useParams();
+    const { push } = useHistory();
+    const [movie, setMovie] = useState(initialMovie);
 
-  const initMovie = {
-    title: title,
-    director: director,
-    metascore: metascore,
-    stars: stars
-  };
+    useEffect(() => {
+        axios
+            .get(`http://localhost:5000/api/movies/${id}`)
+            .then(res => {
+                // console.log(res);
+                setMovie(res.data);
+            })
+            .catch(err => console.log(err));
+    }, [id]);
 
-  const [movie, setMovie] = useState(initMovie);
-  const { push } = useHistory();
-  const { id } = useParams();
 
   const changeHandler = e => {
     e.persist();
@@ -34,7 +44,7 @@ const updateMovie = props => {
       .put(`http://localhost:5000/api/movies/${id}`, movie)
       .then(res => {
         console.log(res);
-        // props.setMovie(res.data)
+        props.setMovieList(res.data);
       })
       .catch(err => console.log("Axios PUT error: ", err))
   }
@@ -42,19 +52,49 @@ const updateMovie = props => {
 
   return (
     <div>
-        <h2>Edit Movie</h2>
+        <h1>Edit Movie</h1>
+        <h3>Movie Title: {movie.title}</h3>
+        <h3>Director: {movie.director}</h3>
+        <h3>Metascore: {movie.metascore}</h3>
+        {movie.stars.map(star => (
+            <div key={star} className="movie-star">
+                {star}
+            </div>
+        ))}
+
         <form onSubmit = {handleSubmit}>
-        <input 
-          type = "text"
-          name = "title"
-          onChange = {changeHandler}
-          placeholder = "Title"
-          value = {movie.title}  
-        />
-        <button className="update">Update</button>
+            <input 
+            type = "text"
+            name = "title"
+            onChange = {changeHandler}
+            placeholder = "title"
+            value = {movie.title}  
+            />
+            <input 
+            type = "text"
+            name = "director"
+            onChange = {changeHandler}
+            placeholder = "director"
+            value = {movie.director}  
+            />
+            <input 
+            type = "text"
+            name = "metascore"
+            onChange = {changeHandler}
+            placeholder = "metascore"
+            value = {movie.title}  
+            />
+            <input 
+            type = "text"
+            name = "stars"
+            onChange = {changeHandler}
+            placeholder = "stars"
+            value = {movie.stars}  
+            />
+            <button className="update">Update</button>
         </form>
     </div>
   )
 }
 
-export default updateMovie;
+export default UpdateMovie;
