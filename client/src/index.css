@@ -75,3 +75,26 @@ body {
   color: red;
   text-align: center;
 }
+
+.myButton {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 40% 10%;
+  background-color: greenyellow;
+  font-style: oblique;
+  font-family:'Amstelvar';
+  opacity:.8;
+}
+
+.deleteButton{
+  background-color: indianred;
+}
+
+.myButton:hover{
+  opacity: 1;
+  cursor: cell;
+}
+
+.deleteButton:hover{
+  cursor: grab;
+}
