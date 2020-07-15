@@ -27,7 +27,7 @@ const App = () => {
   }, []);
 
 
-  console.log("movie List: ", movieList)
+  // console.log("movie List: ", movieList)
   return (
     <>
       <SavedList list={savedList} />
@@ -37,7 +37,7 @@ const App = () => {
       </Route>
 
       <Route path="/movies/:id">
-        <Movie addToSavedList={addToSavedList} />
+        <Movie addToSavedList={addToSavedList} getMovieList = {getMovieList}/>
       </Route>
 
       <Route path = '/movie/update-movie/:id'
