@@ -11,10 +11,13 @@ const initialMovie = {
 }
 
 const UpdateMovie = props => {
-    console.log ("The props: ", props);
+    // console.log ("The props: ", props);
     const { id } = useParams();
     const { push } = useHistory();
     const [movie, setMovie] = useState(initialMovie);
+
+    let movies = props.movies;
+    // console.log("MOVIES", movies);
 
     useEffect(() => {
         axios
@@ -43,13 +46,20 @@ const UpdateMovie = props => {
     axios
       .put(`http://localhost:5000/api/movies/${id}`, movie)
       .then(res => {
-        console.log(res);
-        props.setMovieList(res.data);
+        // console.log("PUT res: ",res);
+        // movies.map(m => {
+        //     if(m.id === res.data.id){
+        //         movies[m.id] = res.data;
+        //     }
+        // })
+        // console.log(movies);
+        props.getMovieList();
+        push(`/`)
       })
       .catch(err => console.log("Axios PUT error: ", err))
   }
 
-
+    
   return (
     <div>
         <h1>Edit Movie</h1>
@@ -82,7 +92,7 @@ const UpdateMovie = props => {
             name = "metascore"
             onChange = {changeHandler}
             placeholder = "metascore"
-            value = {movie.title}  
+            value = {movie.metascore}  
             />
             <input 
             type = "text"
